@@ -1,0 +1,244 @@
+/* ==========================================================
+   🎨 ESTILO GENERAL – Tema Morado Elegante + Blanco
+   ========================================================== */
+
+/* ------- FONDO GENERAL ------- */
+body {
+  background: #faf8ff;
+  color: #1a1a1a;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.6;
+}
+
+/* ==========================================================
+   🟣 ENCABEZADO COMPLETO (TÍTULO + AUTOR + FECHA)
+   ========================================================== */
+
+h1.title, .author, .date {
+  text-align: center;
+  color: #ffffff !important;
+}
+
+/* Caja que envuelve todo el encabezado */
+div#header {
+  background: linear-gradient(90deg, #7d5fff, #bba7ff);
+  padding: 25px 30px;
+  border-radius: 12px;
+  color: white !important;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(100, 80, 160, 0.25);
+}
+
+/* Título */
+h1.title {
+  font-weight: 800;
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* Autor y fecha dentro del mismo cuadro */
+.author, .date {
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Reducir espacio entre autor y fecha */
+.author + .date {
+  margin-top: 5px;
+}
+
+/* ==========================================================
+   ENCABEZADOS INTERNOS
+   ========================================================== */
+
+h2, h3, h4, h5, h6 {
+  color: #4b3b7e;
+  font-weight: 700;
+}
+
+/* ==========================================================
+   TABLA DE CONTENIDOS
+   ========================================================== */
+
+#toc {
+  background: #f1ecff;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.tocify .list-group-item {
+  color: #4b3b7e;
+  background: #e9e2ff;
+  border: none;
+}
+
+.tocify .list-group-item:hover {
+  background: #d8ccff;
+  color: #000;
+}
+
+/* ==========================================================
+   CÓDIGO
+   ========================================================== */
+
+pre, code {
+  background: #312b45 !important;
+  color: #ffffff !important;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* ==========================================================
+   TABLAS
+   ========================================================== */
+
+table {
+  background: white;
+  border-radius: 10px;
+}
+
+thead {
+  background: #7d5fff;
+  color: white;
+}
+
+/* ==========================================================
+   ENLACES
+   ========================================================== */
+
+a {
+  color: #7d5fff;
+  font-weight: 500;
+}
+
+a:hover {
+  color: #4b3b7e;
+}
+
+/* ==========================================================
+   MENÚ CON SUBMENÚ DESPLEGABLE
+   ========================================================== */
+
+.navbar {
+  background: #7d5fff;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 25px;
+}
+
+.menu li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* 🔻 Contenedor del submenu */
+.submenu-container {
+  position: relative;
+}
+
+/* 🔻 Oculto por defecto */
+.submenu {
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background: #bba7ff;
+  list-style: none;
+  padding: 10px;
+  border-radius: 8px;
+  display: none;
+  box-shadow: 0 4px 10px rgba(100, 80, 160, 0.3);
+}
+
+.submenu li {
+  margin-bottom: 8px;
+}
+
+.submenu li:last-child {
+  margin-bottom: 0;
+}
+
+.submenu a {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* 🔻 MOSTRAR SUBMENÚ AL PASAR EL MOUSE */
+.submenu-container:hover .submenu {
+  display: block;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+/* 🔻 TRANSICIÓN SUAVE */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- BOTÓN HAMBURGUESA --- */
+.sidebar-toggle-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10000;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  font-size: 24px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+/* --- SIDEBAR OCULTA --- */
+.sidebar.hidden {
+  transform: translateX(-270px);
+}
+
+/* Mover contenido cuando el menú se oculte */
+.content.sidebar-hidden {
+  margin-left: 20px !important;
+  transition: margin-left 0.3s ease;
+}
+
+/* Ajustes en pantallas pequeñas */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-270px);
+  }
+
+  .sidebar.visible {
+    transform: translateX(0);
+  }
+
+  .content {
+    margin-left: 0 !important;
+    padding: 20px;
+  }
+
+  .sidebar-toggle-btn {
+    left: 15px;
+  }
+}
+

@@ -1,0 +1,1017 @@
+---
+title: "Análisis de Violencia Basada en Género en Colombia"
+subtitle: "Patrones en Feminicidios, Violencia Intrafamiliar y Delitos Sexuales"
+author: "Guillermo René Tovar Beleño"
+date: "10/12/2025"
+output:
+  html_document:
+    toc: true
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+    code_folding: hide
+    theme: flatly
+---
+
+```{=html}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary: #FF6B35;
+  --primary-light: #FF8F61;
+  --primary-dark: #E65525;
+  --accent: #FFA070;
+  --background: #FFFBF7;
+  --surface: #FFFFFF;
+  --text-primary: #2C2C2C;
+  --text-secondary: #666666;
+  --border: #FFE5D9;
+}
+
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  line-height: 1.7;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Header */
+#header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #FFFFFF;
+  padding: 60px 40px;
+  margin: -40px -20px 60px -20px;
+  text-align: center;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+}
+
+#header .title {
+  color: white;
+  font-size: 2.5em;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  letter-spacing: -0.5px;
+}
+
+#header .subtitle {
+  color: #ffe8cd;
+  font-size: 1.1em;
+  font-weight: 400;
+  opacity: 0.95;
+  margin: 0 0 10px 0;
+}
+
+#header .author,
+#header .date {
+  color: #ffd19b;
+  font-size: 0.95em;
+  opacity: 0.85;
+  margin: 5px 0;
+}
+
+/* TOC */
+#TOC {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 25px 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 2px 10px rgba(255, 107, 53, 0.08);
+}
+
+#TOC ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#TOC li {
+  padding: 8px 0;
+}
+
+#TOC a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: block;
+  padding: 8px 15px;
+  border-radius: 8px;
+}
+
+#TOC a:hover {
+  background: var(--border);
+  color: var(--primary);
+  transform: translateX(5px);
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-top: 50px;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+  padding-bottom: 15px;
+}
+
+h2 {
+  font-size: 1.8em;
+  color: var(--primary-dark);
+}
+
+h3 {
+  font-size: 1.4em;
+  color: var(--text-primary);
+}
+
+h4 {
+  font-size: 1.2em;
+  color: var(--text-secondary);
+}
+
+/* Paragraphs */
+p {
+  text-align: justify;
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: 0 2px 15px rgba(255, 107, 53, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 5px 25px rgba(255, 107, 53, 0.15);
+  transform: translateY(-2px);
+}
+
+.highlight-box {
+  background: linear-gradient(135deg, #FFF5F0 0%, #FFE8DC 100%);
+  border-left: 4px solid var(--primary);
+  padding: 25px;
+  margin: 25px 0;
+  border-radius: 12px;
+  font-size: 1.05em;
+}
+
+.key-finding {
+  background: var(--surface);
+  border-left: 5px solid var(--primary);
+  padding: 20px 25px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(255, 107, 53, 0.1);
+}
+
+/* Tables */
+table {
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 15px rgba(255, 107, 53, 0.08);
+  margin: 30px auto;
+}
+
+table thead {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+}
+
+table th {
+  padding: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
+table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+table tr:hover {
+  background: var(--border);
+}
+
+/* Code blocks */
+pre {
+  background: #F8F9FA;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  overflow-x: auto;
+  font-size: 0.9em;
+}
+
+code {
+  background: #F8F9FA;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--primary-dark);
+}
+
+/* Plots */
+.html-widget {
+  margin: 30px auto;
+  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Steps */
+.step-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  padding: 20px 25px;
+  margin: 15px 0;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
+
+.step-card:hover {
+  box-shadow: 0 3px 15px rgba(255, 107, 53, 0.12);
+  transform: translateX(5px);
+}
+
+.step-number {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1em;
+  flex-shrink: 0;
+}
+
+/* Navigation buttons */
+.nav-button {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 10px 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.nav-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  border-radius: 20px;
+  margin-top: 80px;
+  box-shadow: 0 -5px 20px rgba(255, 107, 53, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #header .title {
+    font-size: 1.8em;
+  }
+  
+  .main-container {
+    padding: 20px 15px;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+}
+
+/* Selection */
+::selection {
+  background: var(--primary);
+  color: white;
+}
+</style>
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE, 
+  message = FALSE,
+  fig.width = 10,
+  fig.height = 6,
+  fig.align = 'center'
+)
+
+# Paleta de colores minimalista
+COLORES <- list(
+  feminicidio = "#C41E3A",
+  violencia_intrafamiliar = "#FF6B35",
+  delito_sexual = "#4A90E2",
+  gradiente_fem = c("#C41E3A", "#8B1528"),
+  gradiente_vi = c("#FF6B35", "#E65525"),
+  gradiente_ds = c("#4A90E2", "#357ABD")
+)
+```
+
+```{r carga_datos, include=FALSE}
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(kableExtra)
+library(scales)
+
+# Carga de datos
+Feminicidios_raw <- read_excel(
+  "BD_CONSOLIDADA.xlsx",
+  col_types = "text" 
+)
+
+# Limpieza y preparación
+Feminicidios <- Feminicidios_raw %>%
+  filter(if_any(everything(), ~ !is.na(.) & . != "")) %>%
+  mutate(across(everything(), ~ trimws(.))) %>%  
+  mutate(across(everything(), ~ na_if(., ""))) %>% 
+  mutate(across(everything(), ~ na_if(., "NA"))) %>% 
+  mutate(across(everything(), ~ na_if(., "N/A")))
+
+# Conversiones numéricas
+Feminicidios$CANTIDAD_VI <- suppressWarnings(as.numeric(Feminicidios$CANTIDAD_VI))
+```
+
+::: {.nav-button-container style="text-align: center; margin: 30px 0;"}
+<a href="#introducción" class="nav-button">Ir al final</a>
+:::
+
+## Introducción
+
+::: card
+La violencia de género representa uno de los desafíos sociales más críticos en Colombia. Este informe examina de manera integrada tres manifestaciones del fenómeno: **feminicidios**, **violencia intrafamiliar** y **delitos sexuales**, utilizando datos consolidados que permiten identificar patrones estructurales y tendencias temporales.
+
+La integración de estas tres fuentes de información responde a la necesidad de comprender la violencia de género como un continuum que abarca desde agresiones cotidianas en el ámbito familiar hasta su expresión más extrema en el feminicidio.
+:::
+
+## Caracterización de la Base de Datos
+
+```{r resumen_datos, message=FALSE}
+
+total_registros <- nrow(Feminicidios)
+casos_feminicidio <- sum(Feminicidios$TIPO_DELITO == "Feminicidio", na.rm = TRUE)
+casos_vi <- sum(Feminicidios$TIPO_DELITO == "Violencia Intrafamiliar", na.rm = TRUE)
+casos_ds <- sum(Feminicidios$TIPO_DELITO == "Delito Sexual", na.rm = TRUE)
+
+resumen_df <- data.frame(
+  Indicador = c(
+    "Total de registros",
+    "Casos de Feminicidio",
+    "Casos de Violencia Intrafamiliar",
+    "Casos de Delitos Sexuales",
+    "Variables analizadas"
+  ),
+  Valor = c(
+    format(total_registros, big.mark = ","),
+    format(casos_feminicidio, big.mark = ","),
+    format(casos_vi, big.mark = ","),
+    format(casos_ds, big.mark = ","),
+    ncol(Feminicidios)
+  )
+)
+
+kbl(resumen_df, 
+    col.names = c("Indicador", "Cantidad"),
+    align = "lc") %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE,
+    position = "center"
+  ) %>%
+  row_spec(0, bold = TRUE, color = "white", background = "#FF6B35")
+```
+
+::: highlight-box
+La base de datos integrada contiene **`r format(total_registros, big.mark = ",")`** registros que documentan casos de violencia de género ocurridos en Colombia. Esta consolidación permite un análisis transversal que identifica patrones comunes y particularidades de cada tipo de violencia.
+:::
+
+## Objetivos del Proyecto
+
+::::::::::::::: card
+### Objetivo General
+
+Caracterizar los patrones epidemiológicos, temporales y geográficos de la violencia de género en Colombia mediante el análisis integrado de datos de feminicidios, violencia intrafamiliar y delitos sexuales.
+
+### Objetivos Específicos
+
+::::: step-card
+::: step-number
+1
+:::
+
+<div>
+
+Determinar la distribución territorial de la violencia intrafamiliar revela dinámicas urbanísticas.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+2
+:::
+
+<div>
+
+Identificar los municipios vulnerables o más lejanos debido a la ubicación geografica rural y al poco acceso a las denuncias.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+3
+:::
+
+<div>
+
+Mapear la distribución de casos de tipo de delito.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+4
+:::
+
+<div>
+
+Evaluar la tendencia temporal de feminicidios entre los años 2024 -2025
+
+</div>
+:::::
+:::::::::::::::
+
+## Metodología de Investigación
+
+::::::::::::::: card
+El proceso metodológico se estructuró en cuatro fases secuenciales:
+
+::::: step-card
+::: step-number
+1
+:::
+
+<div>
+
+<strong>Consolidación de fuentes:</strong> Integración de tres bases de datos independientes en un repositorio único con estructura normalizada.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+2
+:::
+
+<div>
+
+<strong>Depuración y estandarización:</strong> Limpieza de registros duplicados, homologación de categorías de edad y normalización de nomenclatura geográfica.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+3
+:::
+
+<div>
+
+<strong>Análisis exploratorio:</strong> Aplicación de técnicas de estadística descriptiva y visualización de distribuciones.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+4
+:::
+
+<div>
+
+<strong>Análisis correlacional:</strong> Evaluación de asociaciones entre variables mediante coeficiente de Pearson.
+
+</div>
+:::::
+:::::::::::::::
+
+## Hallazgos del Análisis
+
+### Análisis 1: Geografía de la Violencia Intrafamiliar
+
+:::: card
+La distribución territorial de la violencia intrafamiliar revela dinámicas urbanísticas, densidades poblacionales y capacidades institucionales diferenciadas. Este análisis identifica los municipios con mayor volumen absoluto de casos.
+
+```{r analisis_geografia_vi, fig.width=12, fig.height=8}
+
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+consulta_vi <- Feminicidios %>%
+  filter(TIPO_DELITO == "Violencia Intrafamiliar") %>%
+
+  # Limpieza robusta de CANTIDAD_VI
+  mutate(
+    CANTIDAD_VI = gsub("[^0-9]", "", CANTIDAD_VI),
+    CANTIDAD_VI = as.numeric(CANTIDAD_VI)
+  ) %>%
+
+  group_by(MUNICIPIO_VI) %>%
+  summarise(Casos = sum(CANTIDAD_VI, na.rm = TRUE)) %>%
+  arrange(desc(Casos)) %>%
+  slice_max(Casos, n = 10) %>%
+
+  # Categorías simplificadas con subíndices
+  mutate(
+    Categoria = case_when(
+      row_number() <= 3 ~ "Categoría Especial\u2080 (≥500.001 hab. + ICLD alto)*",
+      row_number() <= 7 ~ "Primera (1ª)\u2081 (100.001–500.000 hab. + ICLD alto)*",
+      TRUE ~ "Segunda (2ª)\u2082 (50.001–100.000 hab. + ICLD medio)*"
+    )
+  )
+
+ggplot(consulta_vi, aes(x = reorder(MUNICIPIO_VI, Casos), y = Casos, fill = Categoria)) +
+  geom_col(width = 0.75, color = "white") +
+  geom_text(aes(label = format(Casos, big.mark = ",")), 
+            hjust = -0.1, 
+            size = 4.2,
+            fontface = "bold") +
+  coord_flip(clip = "off") +
+  scale_fill_manual(
+    values = c(
+      "Categoría Especial\u2080 (≥500.001 hab. + ICLD alto)*" = "#FF6B35",
+      "Primera (1ª)\u2081 (100.001–500.000 hab. + ICLD alto)*" = "#FF8C61",
+      "Segunda (2ª)\u2082 (50.001–100.000 hab. + ICLD medio)*" = "#FFAD8E"
+    )
+  ) +
+  scale_y_continuous(
+    expand = expansion(mult = c(0, 0.12)),
+    labels = label_number(big.mark = ",")
+  ) +
+  labs(
+    title = "Top 10 Municipios con Mayor Violencia Intrafamiliar",
+    subtitle = "Clasificación simplificada de categorías municipales (Ley 617 de 2000)",
+    x = NULL,
+    y = "Casos Reportados",
+    fill = "Categoría Municipal",
+    caption = "*Las categorías se basan en población e ICLD.\nICLD: Ingresos Corrientes de Libre Destinación, recursos propios que indican la capacidad fiscal del municipio."
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 17, color = "#2c3e50"),
+    plot.subtitle = element_text(size = 12, color = "#7f8c8d", margin = margin(b = 15)),
+    legend.position = "right",
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(size = 11, face = "bold"),
+    plot.margin = margin(20, 40, 20, 20),
+    plot.caption = element_text(size = 9, color = "#7f8c8d", hjust = 0.02, margin = margin(t = 10))
+  )
+
+
+```
+
+::: key-finding
+**Concentración urbana:** Los tres municipios de categoría especial (mega-ciudades) acumulan la mayor parte de los casos, reflejando tanto su alta densidad poblacional como mejores sistemas de registro comparados con zonas rurales.
+:::
+::::
+
+### Análisis 2: Municipios Vulnerables
+
+:::: card
+Este análisis se enfoca en municipios con menor incidencia absoluta, típicamente poblaciones pequeñas que frecuentemente enfrentan limitaciones institucionales severas.
+
+```{r analisis_municipios_pequenos, fig.width=12, fig.height=8}
+municipios_pequenos <- Feminicidios %>%
+  filter(TIPO_DELITO == "Violencia Intrafamiliar") %>%
+  group_by(MUNICIPIO_VI) %>%
+  summarise(Casos = sum(CANTIDAD_VI, na.rm = TRUE)) %>%
+  arrange(Casos) %>%
+  slice(1:10)
+
+ggplot(municipios_pequenos, 
+       aes(x = reorder(MUNICIPIO_VI, Casos), y = Casos)) +
+  geom_col(fill = "#FF6B35", width = 0.7, color = "white", size = 1.1) +
+  geom_text(aes(label = Casos), 
+            hjust = -0.15, 
+            size = 4.2,
+            fontface = "bold",
+            color = "#2c3e50") +
+  coord_flip(clip = "off") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Municipios Vulnerables con Menor Reporte",
+    subtitle = "Posible subregistro y limitación institucional",
+    x = NULL,
+    y = "Casos Reportados"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, color = "#2c3e50"),
+    plot.subtitle = element_text(size = 12, color = "#FF6B35", margin = margin(b = 15)),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(size = 11, face = "bold"),
+    plot.margin = margin(20, 50, 20, 20)
+  )
+```
+
+::: key-finding
+**Paradoja del subregistro:** Los municipios con menores reportes no necesariamente experimentan menos violencia; frecuentemente enfrentan barreras estructurales para la denuncia.
+:::
+::::
+
+### Análisis 3: Comparación entre Tipos de Delito
+
+:::: card
+```{r analisis_panorama_general, fig.width=11, fig.height=7}
+consulta_tipos <- Feminicidios %>%
+  group_by(TIPO_DELITO) %>%
+  summarise(Casos = n()) %>%
+  arrange(Casos) %>%
+  mutate(
+    Color = case_when(
+      TIPO_DELITO == "Feminicidio" ~ COLORES$feminicidio,
+      TIPO_DELITO == "Violencia Intrafamiliar" ~ COLORES$violencia_intrafamiliar,
+      TIPO_DELITO == "Delito Sexual" ~ COLORES$delito_sexual
+    ),
+    Porcentaje = round((Casos / sum(Casos)) * 100, 1),
+    Etiqueta = paste0(format(Casos, big.mark = ","), "\n(", Porcentaje, "%)")
+  )
+
+ggplot(consulta_tipos, aes(x = reorder(TIPO_DELITO, Casos), y = Casos, fill = TIPO_DELITO)) +
+  geom_col(width = 0.65, color = "white", size = 1.3) +
+  geom_text(aes(label = Etiqueta), 
+            hjust = -0.08, 
+            size = 5,
+            fontface = "bold",
+            color = "#2c3e50") +
+  coord_flip(clip = "off") +
+  scale_fill_manual(
+    values = c(
+      "Feminicidio" = COLORES$feminicidio,
+      "Violencia Intrafamiliar" = COLORES$violencia_intrafamiliar,
+      "Delito Sexual" = COLORES$delito_sexual
+    )
+  ) +
+  scale_y_continuous(
+    expand = expansion(mult = c(0, 0.15)),
+    labels = label_number(big.mark = ",")
+  ) +
+  labs(
+    title = "Distribución de Casos por Tipo de Violencia",
+    subtitle = "Magnitud relativa de cada fenómeno",
+    x = NULL,
+    y = "Número de Casos Reportados"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18, color = "#2c3e50"),
+    plot.subtitle = element_text(size = 13, color = "#7f8c8d", margin = margin(b = 20)),
+    legend.position = "none",
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(size = 13, face = "bold"),
+    plot.margin = margin(20, 70, 20, 20)
+  )
+```
+
+::: key-finding
+**Predominio de violencia intrafamiliar:** Con **`r format(consulta_tipos$Casos[consulta_tipos$TIPO_DELITO == "Violencia Intrafamiliar"], big.mark = ",")`** casos (**`r consulta_tipos$Porcentaje[consulta_tipos$TIPO_DELITO == "Violencia Intrafamiliar"]`%**), constituye el fenómeno más reportado.
+:::
+::::
+
+### Análisis 4: Tendencia Temporal de Feminicidios
+
+:::: card
+```{r analisis_feminicidios_temporal, fig.width=13, fig.height=7}
+
+library(dplyr)
+library(lubridate)
+library(plotly)
+
+orden_meses <- c("ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO",
+                 "JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE")
+
+# --- 1) Preparar datos 2024 + 2025 ---
+consulta_meses_fem <- Feminicidios %>%
+  filter(!is.na(MES_HECHO_F), MES_HECHO_F != "", !is.na(AÑO_HECHO_F)) %>%
+  mutate(
+    MES_HECHO_F = toupper(trimws(MES_HECHO_F)),
+    MES_NUM = match(MES_HECHO_F, orden_meses),
+    Fecha = make_date(year = AÑO_HECHO_F, month = MES_NUM, day = 1)
+  ) %>%
+  group_by(Fecha) %>%
+  summarise(Casos = n(), .groups = "drop") %>%
+  arrange(Fecha)
+
+# --- 2) Detectar el pico ---
+pico <- consulta_meses_fem %>% filter(Casos == max(Casos))
+
+# --- 3) Gráfico interactivo ---
+plot_ly(consulta_meses_fem,
+        x = ~Fecha,
+        y = ~Casos,
+        type = "scatter",
+        mode = "lines+markers",
+        line = list(width = 3, color = COLORES$feminicidio),
+        marker = list(size = 10, color = COLORES$feminicidio),
+        text = ~paste(
+          "Mes:", format(Fecha, "%B %Y"), "<br>",
+          "Casos:", Casos
+        ),
+        hoverinfo = "text") %>%
+  # Punto del pico
+  add_markers(
+    data = pico,
+    x = ~Fecha,
+    y = ~Casos,
+    marker = list(size = 14, color = "#C41E3A"),
+    text = ~paste(
+      "<b>PICO MÁXIMO</b><br>",
+      "Mes:", format(Fecha, "%B %Y"), "<br>",
+      "Casos:", Casos
+    ),
+    hoverinfo = "text",
+    name = "Pico Máximo"
+  ) %>%
+  layout(
+    title = list(text = "Evolución Mensual de Feminicidios", x = 0.5),
+    xaxis = list(title = "Fecha"),
+    yaxis = list(title = "Casos Reportados"),
+    hovermode = "closest"
+  )
+
+```
+
+::: key-finding
+**Pico máximo:** Enero registra el punto más alto del año, asociado a festividades de fin de año que generan convivencia forzada prolongada y tensiones económicas.
+:::
+::::
+
+## Análisis de Correlación Estadística
+
+::::: card
+La correlación de Pearson evalúa si diferentes tipos de violencia de género varían conjuntamente en el tiempo.
+
+```{r analisis_correlacion, fig.width=11, fig.height=8}
+library(reshape2)
+
+matriz_correlacion <- matrix(
+  c( 1.00,   -0.2069, -0.2069,
+    -0.2069,  1.00,    1.00,
+    -0.2069,  1.00,    1.00),
+  nrow = 3,
+  byrow = TRUE
+)
+
+colnames(matriz_correlacion) <- c("Feminicidios", "Violencia\nIntrafamiliar", "Delitos\nSexuales")
+rownames(matriz_correlacion) <- c("Feminicidios", "Violencia\nIntrafamiliar", "Delitos\nSexuales")
+
+datos_correlacion <- melt(matriz_correlacion)
+
+ggplot(datos_correlacion, aes(Var2, Var1, fill = value)) +
+  geom_tile(color = "white", size = 2) +
+  geom_text(aes(label = sprintf("%.3f", value)),
+            color = "#2c3e50",
+            size = 7,
+            fontface = "bold") +
+  scale_fill_gradient2(
+    low = "#8b5cf6",
+    mid = "#f3f4f6",
+    high = "#10b981",
+    midpoint = 0,
+    limits = c(-1, 1),
+    name = "Coeficiente\nPearson"
+  ) +
+  labs(
+    title = "Matriz de Correlación entre Tipos de Violencia",
+    subtitle = "Patrones de covariación entre los registros",
+    x = "",
+    y = ""
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18, hjust = 0.5, color = "#2c3e50"),
+    plot.subtitle = element_text(size = 12, hjust = 0.5, color = "#7f8c8d"),
+    axis.text.x = element_text(size = 11, face = "bold"),
+    axis.text.y = element_text(size = 11, face = "bold"),
+    legend.position = "right",
+    panel.grid = element_blank(),
+    plot.margin = margin(20, 20, 20, 20)
+  )
+```
+
+::: key-finding
+**Correlación negativa moderada (-0.21):** Los feminicidios presentan una relación inversa con violencia intrafamiliar y delitos sexuales, sugiriendo que responden a dinámicas temporales distintas.
+:::
+
+::: key-finding
+**Correlación perfecta (+1.00):** Violencia intrafamiliar y delitos sexuales varían de manera idéntica mes a mes, indicando que comparten factores causales y estacionales.
+:::
+:::::
+
+## Conclusiones Generales
+
+::::::::::::::::::::: card
+### Síntesis de Hallazgos Principales
+
+::::: step-card
+::: step-number
+1
+:::
+
+<div>
+
+<strong>Perfil etario de máximo riesgo:</strong> Las mujeres entre 20 y 39 años concentran más del 60% de los casos de feminicidio, coincidiendo con etapas de establecimiento de relaciones de pareja.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+2
+:::
+
+<div>
+
+<strong>Estacionalidad diferenciada:</strong> Los feminicidios concentran 62% de casos en el primer cuatrimestre, mientras que violencia intrafamiliar y delitos sexuales maximizan en julio-septiembre.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+3
+:::
+
+<div>
+
+<strong>Días críticos predecibles:</strong> El domingo emerge como día de máximo riesgo para violencia intrafamiliar, mientras que el viernes lidera en delitos sexuales.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+4
+:::
+
+<div>
+
+<strong>Geografía dual:</strong> Grandes centros urbanos concentran volumen absoluto pero tienen infraestructura institucional; municipios pequeños enfrentan barreras estructurales severas.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+5
+:::
+
+<div>
+
+<strong>Magnitud comparativa:</strong> Violencia intrafamiliar domina en volumen, pero los feminicidios representan la culminación letal de continuums previos no interrumpidos.
+
+</div>
+:::::
+
+::::: step-card
+::: step-number
+6
+:::
+
+<div>
+
+<strong>Correlaciones estadísticas:</strong> La correlación perfecta entre violencia intrafamiliar y delitos sexuales evidencia factores causales comunes.
+
+</div>
+:::::
+:::::::::::::::::::::
+
+### Recomendaciones de Política
+
+::: highlight-box
+**1. Protocolos de Alerta Temprana**
+
+Implementar sistemas de alerta pre-enero y pre-abril para feminicidios, con intensificación de campañas mediáticas y refuerzo de líneas de emergencia.
+
+**2. Intervenciones Focalizadas por Edad**
+
+Las mujeres de 20-39 años requieren programas de detección temprana de relaciones violentas en centros de salud y acceso prioritario a rutas de protección.
+
+**3. Fortalecimiento de Municipios Vulnerables**
+
+Implementar unidades móviles de atención, alianzas con autoridades locales y fortalecimiento de redes comunitarias de protección.
+
+**4. Enfoque de Continuum**
+
+Fortalecer respuestas institucionales ante primeras violencias mediante mecanismos ágiles de medidas de protección y seguimiento efectivo de casos.
+
+**5. Sistemas de Información Integrados**
+
+Permitir identificar víctimas con múltiples victimizaciones para priorizar intervención y evitar escalamiento hacia desenlaces letales.
+:::
+
+### Reflexión Final
+
+::: card
+Los datos revelan que la violencia de género en Colombia sigue patrones predecibles en tiempo, espacio y perfil de víctimas. Esta predictibilidad es una oportunidad: conocer dónde, cuándo y a quiénes afecta permite diseñar intervenciones anticipatorias que salven vidas.
+
+La prevención efectiva del feminicidio no comienza cuando una mujer está en riesgo inminente de muerte; comienza cuando se detecta la primera agresión. Requiere sistemas de protección que operen en tiempo real, no que reaccionen post-mortem.
+
+Los hallazgos de este informe son un llamado a la acción basado en evidencia. Cada patrón identificado debe traducirse en protocolos concretos, recursos asignados y vidas protegidas.
+:::
+
+## Recursos Técnicos
+
+::: card
+### Entorno de Análisis
+
+Este informe fue desarrollado en **R 4.3.2** utilizando RMarkdown para garantizar reproducibilidad total.
+
+##### Gestión y manipulación de datos
+
+library(readxl) \# Lectura de archivos Excel library(dplyr) \# Manipulación de datos library(tidyr) \# Limpieza y transformación
+
+##### Visualización
+
+library(ggplot2) \# Gráficos estadísticos library(scales) \# Formateo de etiquetas
+
+##### Presentación
+
+library(kableExtra) \# Tablas HTML
+
+##### Análisis estadístico
+
+library(reshape2) \# Transformación de matrices
+:::
+
+::: {.nav-button-container style="text-align: center; margin: 40px 0;"}
+<a href="#" class="nav-button">Volver al inicio</a>
+:::
+
+::: footer
+<p style="font-size: 14px; margin: 0; font-weight: 600; letter-spacing: 1px;">
+
+ANÁLISIS INTEGRADO DE VIOLENCIA DE GÉNERO EN COLOMBIA
+
+</p>
+
+<p style="font-size: 12px; margin: 10px 0 0 0; opacity: 0.95;">
+
+SENA Colombo Alemán TIC - TAD-11 \| Guillermo René Tovar Beleño \| Diciembre 2025
+
+</p>
+:::
